@@ -180,6 +180,7 @@ usethis::use_build_ignore("G-Series_in_R_roadmap.Rmd")
 usethis::use_build_ignore("CODE_OF_CONDUCT.md")
 usethis::use_build_ignore("CONTRIBUTING.md")
 usethis::use_build_ignore("SECURITY.md")
+usethis::use_build_ignore(".github")
 
 # Dependencies:
 usethis::use_package("stats")
