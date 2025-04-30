@@ -51,7 +51,7 @@ home:
 news:
   releases:
   - text: "G-Series 3.0 (latest - R package gstest 3.0.0)"
-    href: https://github.com/ferlmic/gstest/tree/main/
+    href: https://github.com/ferlmic/gstest/releases/tag/v3.0.0/
   - text: "G-Series 2.0 (SAS® version)"
     href: https://github.com/ferlmic/gstest/releases/tag/v2.0/
   - text: "G-Series 1.04 (SAS® version)"

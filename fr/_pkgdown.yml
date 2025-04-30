@@ -48,7 +48,7 @@ home:
 news:
   releases:
   - text: "G-Séries 3.0 (version la plus récente - librairie R gstest 3.0.0)"
-    href: https://github.com/ferlmic/gstest/tree/main/
+    href: https://github.com/ferlmic/gstest/releases/tag/v3.0.0/
   - text: "G-Séries 2.0 (version SAS®)"
     href: https://github.com/ferlmic/gstest/releases/tag/v2.0/
   - text: "G-Séries 1.04 (version SAS®)"
