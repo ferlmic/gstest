@@ -301,7 +301,7 @@ gs.gInv_MP <- function(X, tol = NA) {
 #' 
 #' @description
 #' \if{html,text}{(\emph{version française: 
-#' \url{https://ferlmic.github.io/gstest/fr/reference/time_values.html}})}
+#' \url{https://ferlmic.github.io/gstest/fr/reference/time_values_conv.html}})}
 #' 
 #' @param ts (mandatory) Time series ("ts" or "mts") or object to be coerced to one.
 #' @param sep (optional) String (character constant) specifying the separator to use between the year 

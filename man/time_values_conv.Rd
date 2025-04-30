@@ -30,7 +30,7 @@ or \code{gs.time2year(ts)} and \code{gs.time2per(ts)} separated with \code{sep} 
 }
 \description{
 \if{html,text}{(\emph{version française: 
-\url{https://ferlmic.github.io/gstest/fr/reference/time_values.html}})}
+\url{https://ferlmic.github.io/gstest/fr/reference/time_values_conv.html}})}
 }
 \examples{
 # Dummy monthly time series 
