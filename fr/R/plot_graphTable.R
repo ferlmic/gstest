@@ -432,7 +432,7 @@ plot_graphTable <- function(graphTable,
       grDevices::dev.off()
       if (xmpdf::supports_set_bookmarks()) {
         tmp_pdf2 <- try(xmpdf::set_bookmarks(bookmarks_df, tmp_pdf, tempfile(fileext = ".pdf")))
-        if (exists("tmp_pdf2")) {
+        if (exists("tmp_pdf2") && file.exists(tmp_pdf2)) {
           unlink(tmp_pdf)
           tmp_pdf <- tmp_pdf2
           bookmark_msg_flag <- FALSE
