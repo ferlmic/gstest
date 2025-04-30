@@ -52,6 +52,13 @@
 #' **Les valeurs par défaut** sont `ori_plot_flag = TRUE`, `adj_plot_flag = TRUE`, `GR_plot_flag = TRUE` et 
 #' `GR_table_flag = FALSE`.
 #'
+#' @param add_bookmarks
+#'
+#' Argument logique (*logical*) indiquant si des signets doivent être ajoutés au fichier PDF. Voir **Signets** dans la section
+#' **Détails** pour plus d'informations.
+#'
+#' **La valeur par défaut** est `add_bookmarks = TRUE`.
+#'
 #'
 #' @details
 #' Liste des variables du *data frame* **graphTable** (argument `graphTable`) correspondant à chaque élément des quatre 
@@ -105,16 +112,19 @@
 #' (voir les **Exemples**).
 #' 
 #' ## Signets
-#' Des signets sont ajoutés au fichier PDF avec `xmpdf::set_bookmarks()`, qui nécessite un outil tiers tel que 
-#' [Ghostscript](https://www.ghostscript.com/) ou [PDFtk](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/). Voir la section 
-#' **Installation** dans `vignette("xmpdf", package = "xmpdf")` pour plus de détails. 
+#' Des signets sont ajoutés au fichier PDF avec `xmpdf::set_bookmarks()` lorsque l'argument \ifelse{latex}{\code{add _bookmarks = TRUE}}{
+#' \code{add_bookmarks = TRUE}} (par défault), ce qui nécessite un outil tiers tel que [Ghostscript](https://www.ghostscript.com/) ou 
+#' [PDFtk](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/). Voir la section **Installation** dans 
+#' `vignette("xmpdf", package = "xmpdf")` pour plus de détails. 
 #' 
 #' **Important** : les signets seront ajoutés avec succès au fichier PDF **si et seulement si** \ifelse{latex}{\code{xmpdf::supports 
-#' _set_bookmarks()}}{\code{xmpdf::supports_set_bookmarks()}} renvoie `TRUE`. Si Ghostscript est installé sur votre machine mais
-#' que \ifelse{latex}{\code{xmpdf::supports _set_bookmarks()}}{\code{xmpdf::supports_set_bookmarks()}} renvoie toujours `FALSE`,
-#' essayez de spécifier le chemin de l'exécutable Ghostscript dans la variable d'environnement `R_GSCMD` (ex., \ifelse{latex}{
-#' \code{Sys.setenv(R_GSCMD = "C:/Program Files/.../bin /gswin64c.exe")}}{\code{Sys.setenv(R_GSCMD = 
-#' "C:/Program Files/.../bin/gswin64c.exe")}} avec Windows).
+#' _set_bookmarks()}}{\code{xmpdf::supports_set_bookmarks()}} renvoie `TRUE` **et** l'exécution de `xmpdf::set_bookmarks()` est réussie. 
+#' Si Ghostscript est installé sur votre machine mais que `xmpdf::supports_set_bookmarks()` renvoie toujours `FALSE`, essayez de 
+#' spécifier le chemin de l'exécutable Ghostscript dans la variable d'environnement `R_GSCMD` (ex., \ifelse{latex}{
+#' \code{Sys.setenv(R_GSCMD = "C:/Program Files/.../bin/gswin64c .exe")}}{
+#' \code{Sys.setenv(R_GSCMD = "C:/Program Files/.../bin/gswin64c.exe")}} avec Windows). D'un autre côté, si 
+#' `xmpdf::supports_set_bookmarks()}` renvoie `TRUE` mais que vous rencontrez des problèmes (insolubles) avec `xmpdf::set_bookmarks()` 
+#' (ex., erreur liée à l'exécutable Ghostscript), la création de signets peut être désactivée en spécifiant `add_bookmarks = FALSE`.
 #'
 #' @returns
 #' En plus de créer un fichier PDF contenant les graphiques d'étalonnage (sauf si `pdf_file = NULL`), cette fonction renvoie également 
@@ -147,7 +157,8 @@ plot_graphTable <- function(graphTable,
                             ori_plot_flag = TRUE,
                             adj_plot_flag = TRUE,
                             GR_plot_flag = TRUE,
-                            GR_table_flag = FALSE) {
+                            GR_table_flag = FALSE,
+                            add_bookmarks = TRUE) {
   
   
   # Initialize the object to be returned by the function via `on.exit()`
@@ -187,6 +198,7 @@ plot_graphTable <- function(graphTable,
   adj_plot_flag <- gs.validate_arg_logi(adj_plot_flag)
   GR_plot_flag <- gs.validate_arg_logi(GR_plot_flag)
   GR_table_flag <- gs.validate_arg_logi(GR_table_flag)
+  add_bookmarks <- gs.validate_arg_logi(add_bookmarks)
   
   
   # Set mandatory argument `pdf_file` to NULL if it's not specified
@@ -430,17 +442,21 @@ plot_graphTable <- function(graphTable,
       
       # Close the temporary PDF file and add bookmarks
       grDevices::dev.off()
-      if (xmpdf::supports_set_bookmarks()) {
-        tmp_pdf2 <- try(xmpdf::set_bookmarks(bookmarks_df, tmp_pdf, tempfile(fileext = ".pdf")))
-        if (exists("tmp_pdf2") && file.exists(tmp_pdf2)) {
-          unlink(tmp_pdf)
-          tmp_pdf <- tmp_pdf2
-          bookmark_msg_flag <- FALSE
+      if (add_bookmarks) {
+        if (xmpdf::supports_set_bookmarks()) {
+          tmp_pdf2 <- try(xmpdf::set_bookmarks(bookmarks_df, tmp_pdf, tempfile(fileext = ".pdf")))
+          if (exists("tmp_pdf2") && file.exists(tmp_pdf2)) {
+            unlink(tmp_pdf)
+            tmp_pdf <- tmp_pdf2
+            bookmark_msg_flag <- FALSE
+          } else {
+            bookmark_msg_flag <- TRUE
+          }
         } else {
           bookmark_msg_flag <- TRUE
         }
       } else {
-        bookmark_msg_flag <- TRUE
+        bookmark_msg_flag <- FALSE
       }
       
       # Create the final (remote) PDF file

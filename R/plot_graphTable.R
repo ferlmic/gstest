@@ -46,6 +46,13 @@
 #' **Default values** are `ori_plot_flag = TRUE`, `adj_plot_flag = TRUE`, `GR_plot_flag = TRUE` and 
 #' `GR_table_flag = FALSE`.
 #'
+#' @param add_bookmarks
+#'
+#' Logical argument indicating whether or not bookmarks should be added to the PDF file. See **Bookmarks** in section 
+#' **Details** for more information.
+#'
+#' **Default value** is `add_bookmarks = TRUE`.
+#'
 #'
 #' @details
 #' List of the **graphTable** data frame (argument `graphTable`) variables corresponding to each element of the four 
@@ -98,15 +105,18 @@
 #' (see the **Examples**).
 #' 
 #' ## Bookmarks
-#' Bookmarks are added to the PDF file with `xmpdf::set_bookmarks()`, which requires a command-line tool such as 
-#' [Ghostscript](https://www.ghostscript.com/)  or [PDFtk](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/). 
-#' See section **Installation** in `vignette("xmpdf", package = "xmpdf")` for details. 
+#' Bookmarks are added to the PDF file with `xmpdf::set_bookmarks()` when argument `add_bookmarks = TRUE` (default), which 
+#' requires a command-line tool such as [Ghostscript](https://www.ghostscript.com/)  or 
+#' [PDFtk](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/). See section **Installation** in 
+#' `vignette("xmpdf", package = "xmpdf")` for details.
 #' 
 #' **Important**: bookmarks will be successfully added to the PDF file **if and only if** \ifelse{latex}{\code{xmpdf::supports 
-#' _set_bookmarks()}}{\code{xmpdf::supports_set_bookmarks()}} returns `TRUE`. If Ghostscript is installed on your machine but 
-#' \ifelse{latex}{\code{xmpdf::supports _set_bookmarks()}}{\code{xmpdf::supports_set_bookmarks()}} still returns `FALSE`, 
-#' try specifying the path of the Ghostscript executable in environment variable `R_GSCMD` (e.g., `Sys.setenv(R_GSCMD = 
-#' "C:/Program Files/.../bin/gswin64c.exe")` on Windows).
+#' _set_bookmarks()}}{\code{xmpdf::supports_set_bookmarks()}} returns `TRUE` **and** the execution of `xmpdf::set_bookmarks()` is 
+#' successful. If Ghostscript is installed on your machine but `xmpdf::supports_set_bookmarks()` still returns `FALSE`, try 
+#' specifying the path of the Ghostscript executable in environment variable `R_GSCMD` (e.g., 
+#' `Sys.setenv(R_GSCMD = "C:/Program Files/.../bin/gswin64c.exe")` on Windows). On the other hand, if 
+#' `xmpdf::supports_set_bookmarks()}` returns `TRUE` but you are experiencing (irresolvable) issues with `xmpdf::set_bookmarks()` 
+#' (e.g., error related to the Ghostscript executable), bookmarks creation can be disabled by specifying `add_bookmarks = FALSE`.
 #'
 #'
 #' @returns
@@ -140,7 +150,8 @@ plot_graphTable <- function(graphTable,
                             ori_plot_flag = TRUE,
                             adj_plot_flag = TRUE,
                             GR_plot_flag = TRUE,
-                            GR_table_flag = FALSE) {
+                            GR_table_flag = FALSE,
+                            add_bookmarks = TRUE) {
   
   
   # Initialize the object to be returned by the function via `on.exit()`
@@ -180,6 +191,7 @@ plot_graphTable <- function(graphTable,
   adj_plot_flag <- gs.validate_arg_logi(adj_plot_flag)
   GR_plot_flag <- gs.validate_arg_logi(GR_plot_flag)
   GR_table_flag <- gs.validate_arg_logi(GR_table_flag)
+  add_bookmarks <- gs.validate_arg_logi(add_bookmarks)
   
   
   # Set mandatory argument `pdf_file` to NULL if it's not specified
@@ -423,17 +435,21 @@ plot_graphTable <- function(graphTable,
       
       # Close the temporary PDF file and add bookmarks
       grDevices::dev.off()
-      if (xmpdf::supports_set_bookmarks()) {
-        tmp_pdf2 <- try(xmpdf::set_bookmarks(bookmarks_df, tmp_pdf, tempfile(fileext = ".pdf")))
-        if (exists("tmp_pdf2") && file.exists(tmp_pdf2)) {
-          unlink(tmp_pdf)
-          tmp_pdf <- tmp_pdf2
-          bookmark_msg_flag <- FALSE
+      if (add_bookmarks) {
+        if (xmpdf::supports_set_bookmarks()) {
+          tmp_pdf2 <- try(xmpdf::set_bookmarks(bookmarks_df, tmp_pdf, tempfile(fileext = ".pdf")))
+          if (exists("tmp_pdf2") && file.exists(tmp_pdf2)) {
+            unlink(tmp_pdf)
+            tmp_pdf <- tmp_pdf2
+            bookmark_msg_flag <- FALSE
+          } else {
+            bookmark_msg_flag <- TRUE
+          }
         } else {
           bookmark_msg_flag <- TRUE
         }
       } else {
-        bookmark_msg_flag <- TRUE
+        bookmark_msg_flag <- FALSE
       }
 
       # Create the final (remote) PDF file

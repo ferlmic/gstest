@@ -10,7 +10,8 @@ plot_graphTable(
   ori_plot_flag = TRUE,
   adj_plot_flag = TRUE,
   GR_plot_flag = TRUE,
-  GR_table_flag = FALSE
+  GR_table_flag = FALSE,
+  add_bookmarks = TRUE
 )
 }
 \arguments{
@@ -31,6 +32,11 @@ premiers types de graphiques sont générés par défaut alors que le quatrième
 
 \strong{Les valeurs par défaut} sont \code{ori_plot_flag = TRUE}, \code{adj_plot_flag = TRUE}, \code{GR_plot_flag = TRUE} et
 \code{GR_table_flag = FALSE}.}
+
+\item{add_bookmarks}{Argument logique (\emph{logical}) indiquant si des signets doivent être ajoutés au fichier PDF. Voir \strong{Signets} dans la section
+\strong{Détails} pour plus d'informations.
+
+\strong{La valeur par défaut} est \code{add_bookmarks = TRUE}.}
 }
 \value{
 En plus de créer un fichier PDF contenant les graphiques d'étalonnage (sauf si \code{pdf_file = NULL}), cette fonction renvoie également
@@ -150,16 +156,19 @@ comme thème par défaut). Utilisez la fonction \code{theme_set()} pour changer 
 
 \subsection{Signets}{
 
-Des signets sont ajoutés au fichier PDF avec \code{xmpdf::set_bookmarks()}, qui nécessite un outil tiers tel que
-\href{https://www.ghostscript.com/}{Ghostscript} ou \href{https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/}{PDFtk}. Voir la section
-\strong{Installation} dans \code{vignette("xmpdf", package = "xmpdf")} pour plus de détails.
+Des signets sont ajoutés au fichier PDF avec \code{xmpdf::set_bookmarks()} lorsque l'argument \ifelse{latex}{\code{add _bookmarks = TRUE}}{
+\code{add_bookmarks = TRUE}} (par défault), ce qui nécessite un outil tiers tel que \href{https://www.ghostscript.com/}{Ghostscript} ou
+\href{https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/}{PDFtk}. Voir la section \strong{Installation} dans
+\code{vignette("xmpdf", package = "xmpdf")} pour plus de détails.
 
 \strong{Important} : les signets seront ajoutés avec succès au fichier PDF \strong{si et seulement si} \ifelse{latex}{\code{xmpdf::supports 
-_set_bookmarks()}}{\code{xmpdf::supports_set_bookmarks()}} renvoie \code{TRUE}. Si Ghostscript est installé sur votre machine mais
-que \ifelse{latex}{\code{xmpdf::supports _set_bookmarks()}}{\code{xmpdf::supports_set_bookmarks()}} renvoie toujours \code{FALSE},
-essayez de spécifier le chemin de l'exécutable Ghostscript dans la variable d'environnement \code{R_GSCMD} (ex., \ifelse{latex}{
-\code{Sys.setenv(R_GSCMD = "C:/Program Files/.../bin /gswin64c.exe")}}{\code{Sys.setenv(R_GSCMD = 
-"C:/Program Files/.../bin/gswin64c.exe")}} avec Windows).
+_set_bookmarks()}}{\code{xmpdf::supports_set_bookmarks()}} renvoie \code{TRUE} \strong{et} l'exécution de \code{xmpdf::set_bookmarks()} est réussie.
+Si Ghostscript est installé sur votre machine mais que \code{xmpdf::supports_set_bookmarks()} renvoie toujours \code{FALSE}, essayez de
+spécifier le chemin de l'exécutable Ghostscript dans la variable d'environnement \code{R_GSCMD} (ex., \ifelse{latex}{
+\code{Sys.setenv(R_GSCMD = "C:/Program Files/.../bin/gswin64c .exe")}}{
+\code{Sys.setenv(R_GSCMD = "C:/Program Files/.../bin/gswin64c.exe")}} avec Windows). D'un autre côté, si
+\verb{xmpdf::supports_set_bookmarks()\}} renvoie \code{TRUE} mais que vous rencontrez des problèmes (insolubles) avec \code{xmpdf::set_bookmarks()}
+(ex., erreur liée à l'exécutable Ghostscript), la création de signets peut être désactivée en spécifiant \code{add_bookmarks = FALSE}.
 }
 }
 \examples{

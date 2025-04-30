@@ -1,7 +1,7 @@
 Package: gstest
 Title: (EN) 'G-Series' in 'R' | (FR) 'G-Séries' en 'R'
 Version: 3.0.0
-Created: April 8, 2025, at 3:40:01 PM EDT
+Created: April 30, 2025, at 3:42:27 PM EDT
 Authors@R: c(
     person("Michel", "Ferland", email = "michel.ferland@statcan.gc.ca", 
     role = c("aut", "cre")),
