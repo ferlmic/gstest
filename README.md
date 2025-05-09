@@ -6,7 +6,8 @@
 <!-- badges: start -->
 <!-- [![CRAN Status](https://www.r-pkg.org/badges/version/gstest)](https://cran.r-project.org/package=gstest) -->
 
-[![R-CMD-check](https://github.com/ferlmic/gstest/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ferlmic/gstest/actions/workflows/R-CMD-check.yaml)
+![Lifecycle: stable](man/figures/lifecycle-stable.svg)
+![R-CMD-check](https://github.com/ferlmic/gstest/actions/workflows/R-CMD-check.yaml/badge.svg?branch=main)
 [![Codecov test
 coverage](https://codecov.io/gh/ferlmic/gstest/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ferlmic/gstest?branch=main)
 
@@ -99,7 +100,8 @@ GitLab development project hosted on the StatCan intranet (search for
 <!-- badges: start -->
 <!-- [![CRAN Status](https://www.r-pkg.org/badges/version/gstest)](https://cran.r-project.org/package=gstest) -->
 
-[![R-CMD-check](https://github.com/ferlmic/gstest/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ferlmic/gstest/actions/workflows/R-CMD-check.yaml)
+![Lifecycle: stable](man/figures/lifecycle-stable.svg)
+![R-CMD-check](https://github.com/ferlmic/gstest/actions/workflows/R-CMD-check.yaml/badge.svg?branch=dummy)
 [![Codecov test
 coverage](https://codecov.io/gh/ferlmic/gstest/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ferlmic/gstest?branch=main)
 
