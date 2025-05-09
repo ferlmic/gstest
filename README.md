@@ -101,7 +101,7 @@ GitLab development project hosted on the StatCan intranet (search for
 <!-- [![CRAN Status](https://www.r-pkg.org/badges/version/gstest)](https://cran.r-project.org/package=gstest) -->
 
 ![Lifecycle: stable](man/figures/lifecycle-stable.svg)
-![R-CMD-check](https://github.com/ferlmic/gstest/actions/workflows/R-CMD-check.yaml/badge.svg?branch=dummy)
+![R-CMD-check](https://github.com/ferlmic/gstest/actions/workflows/R-CMD-check.yaml/badge.svg?branch=main)
 [![Codecov test
 coverage](https://codecov.io/gh/ferlmic/gstest/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ferlmic/gstest?branch=main)
 
