@@ -8,7 +8,7 @@
 
 [![Lifecycle:
 stable](man/figures/lifecycle-stable.svg)](https://lifecycle.r-lib.org/articles/stages.html)
-[![R-CMD-check](https://github.com/ferlmic/gstest/actions/workflows/R-CMD-check.yaml/badge.svg?branch=main)](https://github.com/ferlmic/gstest/actions/workflows/R-CMD-check.yaml?branch=main)
+[![R-CMD-check](https://github.com/ferlmic/gstest/actions/workflows/R-CMD-check.yaml/badge.svg?branch=main)](https://github.com/ferlmic/gstest/actions/workflows/R-CMD-check.yaml?query=branch%3Amain)
 [![Codecov test
 coverage](https://codecov.io/gh/ferlmic/gstest/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ferlmic/gstest?branch=main)
 
