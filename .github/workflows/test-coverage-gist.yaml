@@ -21,7 +21,7 @@ name: Test Coverage - Gist
 on:
   push:
     branches: [main]
-  Allow a manual run of the workflow
+  # Allow a manual run of the workflow
   workflow_dispatch:
 
 permissions: read-all
