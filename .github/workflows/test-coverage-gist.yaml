@@ -1,12 +1,19 @@
-# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
-# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+# Test coverage workflow using Gist for the coverage. 
+# Source: https://dev.to/thejaredwilcurt/coverage-badge-with-github-actions-finally-59fa
+# 
+# Compared isons with other (widespread) approaches:
+# - Disadvantage: full coverage report not available (not hosted anywhere)
+# - Advantages: 
+#   - Does not use 3rd party service website (e.g., Codecov.io) to host the coverage report
+#   - Does not use GitHub Pages to hostdisplay the full report (we need it for the package website)
+
+name: Test Coverage - Gist
+
 on:
   # push:
   #   branches: [main, master]
   # Allow a manual run of the workflow
   workflow_dispatch:
-
-name: test-coverage-gist.yaml
 
 permissions: read-all
 
@@ -29,24 +36,43 @@ jobs:
           needs: coverage
 
       - name: Test coverage
+        # run: |
+        #   cov <- covr::package_coverage(
+        #     type = "tests",  # unit tests only
+        #     quiet = FALSE,
+        #     clean = FALSE,
+        #     install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")
+        #   )
+        #   print(cov)
+        #   pkg_cov <- covr::percent_coverage(cov)
+        #   Sys.setenv(COVERAGE = pkg_cov)
+        #   if (pkg_cov > 75) {
+        #     Sys.setenv(COVERAGE_COLOR = "green")  
+        #   } else if (pkg_cov > 50) {
+        #     Sys.setenv(COVERAGE_COLOR = "yellow")  
+        #   } else {
+        #     Sys.setenv(COVERAGE_COLOR = "red")  
+        #   }
+        # shell: Rscript {0}
         run: |
-          cov <- covr::package_coverage(
-            type = "tests",  # unit tests only
-            quiet = FALSE,
-            clean = FALSE,
-            install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")
-          )
-          print(cov)
-          pkg_cov <- covr::percent_coverage(cov)
-          Sys.setenv(COVERAGE = pkg_cov)
-          if (pkg_cov > 75) {
-            Sys.setenv(COVERAGE_COLOR = "green")  
-          } else if (pkg_cov > 50) {
-            Sys.setenv(COVERAGE_COLOR = "yellow")  
-          } else {
-            Sys.setenv(COVERAGE_COLOR = "red")  
-          }
-        shell: Rscript {0}
+          R -e 'cov <- covr::package_coverage(
+                  type = "tests",  # unit tests only
+                  quiet = FALSE,
+                  clean = FALSE,
+                  install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")
+                ); 
+                print(cov);
+                pkg_cov <- covr::percent_coverage(cov);
+                Sys.setenv(R_COVERAGE = pkg_cov);
+                if (pkg_cov > 75) {
+                  Sys.setenv(R_COVERAGE_COLOR = "green")  
+                } else if (pkg_cov > 50) {
+                  Sys.setenv(R_COVERAGE_COLOR = "yellow")  
+                } else {
+                  Sys.setenv(R_COVERAGE_COLOR = "red")  
+                }'
+          echo "COVERAGE=$(echo ${R_COVERAGE})" >> $GITHUB_ENV
+          echo "COVERAGE_COLOR=$(echo ${R_COVERAGE_COLOR})" >> $GITHUB_ENV
 
       - name: Create Coverage Badge
         uses: schneegans/dynamic-badges-action@v1.1.0
@@ -55,12 +81,10 @@ jobs:
           gistID: d1c44251dc166a6148015f7414a0ed1a
           filename: gstest_coverage.json
           label: coverage
-          # message: ${{ env.COVERAGE }}
-          # color: ${{ env.COVERAGE_COLOR }}
-          message: pkg-pct
-          color: yellow
-          #namedLogo: jest
-          #logoColor: lightblue
+          message: ${{ env.COVERAGE }}
+          color: ${{ env.COVERAGE_COLOR }}
+          # message: pkg-pct
+          # color: yellow
 
       - name: Show testthat output
         if: always()
