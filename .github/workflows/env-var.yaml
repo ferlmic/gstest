@@ -25,8 +25,17 @@ jobs:
 
       - name: Test coverage
         run: |
-          pkg_cov <- 95.123456
-          cov_col <- "red"
+          pkg_cov <- 25.123456
+          #pkg_cov <- 65.123456
+          #pkg_cov <- 95.123456
+          if (pkg_cov > 75) {
+            cov_col <- "green"
+          } else if (pkg_cov > 50) {
+            cov_col <- "yellow"
+            Sys.setenv(R_COVERAGE_COLOR = "yellow")  
+          } else {
+            cov_col <- "red"
+          }
           writeLines(
             paste0(
               'echo "COVERAGE=', pkg_cov, '" >> $GITHUB_ENV\n', 
