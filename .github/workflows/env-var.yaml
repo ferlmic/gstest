@@ -37,10 +37,23 @@ jobs:
           cat("script: ", normalizePath(utils::fileSnapshot("./set_env_var.sh")$path), "\n")
         shell: Rscript {0}
 
-      - name: Set env vars
-        run: ./set_env_var.sh
+      - name: Run env-var script
+        working-directory: ${{ github.workspace }}
+        run: bash ./set_env_var.sh
 
       - name: Display env vars
         run: |
           echo "COVERAGE=${{ env.COVERAGE }}"
           echo "COVERAGE_COLOR=${{ env.COVERAGE_COLOR }}"
+
+      - name: Create coverage badge
+        uses: schneegans/dynamic-badges-action@v1.1.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: d1c44251dc166a6148015f7414a0ed1a
+          filename: gstest_coverage.json
+          label: coverage
+          message: ${{ env.COVERAGE }}
+          color: ${{ env.COVERAGE_COLOR }}
+          # message: pkg-pct
+          # color: yellow
