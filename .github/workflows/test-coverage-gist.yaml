@@ -55,7 +55,7 @@ jobs:
           }
           writeLines(
             paste0(
-              'echo "COVERAGE=', pkg_cov, '" >> $GITHUB_ENV\n', 
+              'echo "COVERAGE=', format(pkg_cov, digits = 4), '%" >> $GITHUB_ENV\n', 
               'echo "COVERAGE_COLOR=', cov_col, '" >> $GITHUB_ENV\n'
             ),
             "./set_env_var.sh"
