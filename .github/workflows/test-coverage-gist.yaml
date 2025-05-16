@@ -36,60 +36,35 @@ jobs:
           needs: coverage
 
       - name: Test coverage
-        # run: |
-        #   cov <- covr::package_coverage(
-        #     type = "tests",  # unit tests only
-        #     quiet = FALSE,
-        #     clean = FALSE,
-        #     install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")
-        #   )
-        #   print(cov)
-        #   pkg_cov <- covr::percent_coverage(cov)
-        #   Sys.setenv(COVERAGE = pkg_cov)
-        #   if (pkg_cov > 75) {
-        #     Sys.setenv(COVERAGE_COLOR = "green")  
-        #   } else if (pkg_cov > 50) {
-        #     Sys.setenv(COVERAGE_COLOR = "yellow")  
-        #   } else {
-        #     Sys.setenv(COVERAGE_COLOR = "red")  
-        #   }
-        # shell: Rscript {0}
         run: |
-          Rscript -e 'cov <- covr::package_coverage(
-                  type = "tests",  # unit tests only
-                  quiet = FALSE,
-                  clean = FALSE,
-                  install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")
-                ); 
-                print(cov);
-                pkg_cov <- covr::percent_coverage(cov);
-                if (pkg_cov > 75) {
-                  cov_col <- "green"
-                } else if (pkg_cov > 50) {
-                  cov_col <- "yellow"
-                  Sys.setenv(R_COVERAGE_COLOR = "yellow")  
-                } else {
-                  cov_col <- "red"
-                };
-                Sys.setenv(R_COVERAGE = pkg_cov);
-                Sys.setenv(R_COVERAGE_COLOR = cov_col)  
-                Sys.getenv("R_COVERAGE");
-                Sys.getenv("R_COVERAGE_COLOR");
-                system(paste0("R_COVERAGE2=", pkg_cov));
-                system(paste0("R_COVERAGE_COLOR2=", cov_col));
-                '
-          echo $R_COVERAGE
-          echo $R_COVERAGE_COLOR
-          echo ${R_COVERAGE}
-          echo ${R_COVERAGE_COLOR}
-          echo $R_COVERAGE2
-          echo $R_COVERAGE_COLOR2
-          echo ${R_COVERAGE2}
-          echo ${R_COVERAGE_COLOR2}
-          # echo "COVERAGE=$(echo ${R_COVERAGE})"
-          # echo "COVERAGE_COLOR=$(echo ${R_COVERAGE_COLOR})"
-          # echo "COVERAGE=$(echo ${R_COVERAGE})" >> $GITHUB_ENV
-          # echo "COVERAGE_COLOR=$(echo ${R_COVERAGE_COLOR})" >> $GITHUB_ENV
+          cov <- covr::package_coverage(
+            type = "tests",  # unit tests only
+            quiet = FALSE,
+            clean = FALSE,
+            install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")
+          )
+          print(cov)
+          pkg_cov <- covr::percent_coverage(cov)
+          if (pkg_cov > 75) {
+            cov_col <- "green"
+          } else if (pkg_cov > 50) {
+            cov_col <- "yellow"
+            Sys.setenv(R_COVERAGE_COLOR = "yellow")  
+          } else {
+            cov_col <- "red"
+          }
+          writeLines(
+            paste0(
+              'echo "COVERAGE=', pkg_cov, '" >> $GITHUB_ENV\n', 
+              'echo "COVERAGE_COLOR=', cov_col, '" >> $GITHUB_ENV\n'
+            ),
+            "./set_env_var.sh"
+          )
+        shell: Rscript {0}
+
+      - name: Set environment variables
+        working-directory: ${{ github.workspace }}
+        run: bash ./set_env_var.sh
 
       - name: Create coverage badge
         uses: schneegans/dynamic-badges-action@v1.1.0
