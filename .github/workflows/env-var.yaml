@@ -32,12 +32,13 @@ jobs:
               'echo "COVERAGE=', pkg_cov, '" >> $GITHUB_ENV\n', 
               'echo "COVERAGE_COLOR=', cov_col, '" >> $GITHUB_ENV\n'
             ),
-            "set_env_var.sh"
+            "./set_env_var.sh"
           )
+          cat("script: ", normalizePath(utils::fileSnapshot("./set_env_var.sh")$path), "\n")
         shell: Rscript {0}
 
       - name: Set env vars
-        run: set_env_var.sh
+        run: ./set_env_var.sh
 
       - name: Display env vars
         run: |
