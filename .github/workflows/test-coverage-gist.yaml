@@ -55,8 +55,10 @@ jobs:
           gistID: d1c44251dc166a6148015f7414a0ed1a
           filename: gstest_coverage.json
           label: coverage
-          message: ${{ env.COVERAGE }}
-          color: ${{ env.COVERAGE_COLOR }}
+          # message: ${{ env.COVERAGE }}
+          # color: ${{ env.COVERAGE_COLOR }}
+          message: pkg-pct
+          color: yellow
           #namedLogo: jest
           #logoColor: lightblue
 
