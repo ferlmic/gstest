@@ -1,11 +1,15 @@
 # Test coverage workflow using Gist for the coverage. 
 # Source: https://dev.to/thejaredwilcurt/coverage-badge-with-github-actions-finally-59fa
 # 
-# Compared isons with other (widespread) approaches:
+# Compared with other (widespread) approaches:
 # - Disadvantage: full coverage report not available (not hosted anywhere)
-# - Advantages: 
+# - Advantages (tied to the disadvantage mentioned above): 
 #   - Does not use 3rd party service website (e.g., Codecov.io) to host the coverage report
-#   - Does not use GitHub Pages to hostdisplay the full report (we need it for the package website)
+#   - Does not use GitHub Pages to host the full report 
+#     (Pages is already used for the package website)
+#
+# Source for the badge colors (in step "Test Coverage"): 
+# https://docs.gitlab.com/user/project/badges/#test-coverage-limits-and-badge-colors
 
 name: Test Coverage - Gist
 
@@ -45,13 +49,14 @@ jobs:
           )
           print(cov)
           pkg_cov <- covr::percent_coverage(cov)
-          if (pkg_cov > 75) {
-            cov_col <- "green"
-          } else if (pkg_cov > 50) {
-            cov_col <- "yellow"
-            Sys.setenv(R_COVERAGE_COLOR = "yellow")  
+          if (pkg_cov > 95) {
+            cov_col <- "#4c1"         # green
+          } else if (pkg_cov > 90) {
+            cov_col <- "#a3c51c"      # yellowish green
+          } else if (pkg_cov > 75) {
+            cov_col <- "#dfb317"      # yellow
           } else {
-            cov_col <- "red"
+            cov_col <- "e05d44"       # red
           }
           writeLines(
             paste0(
@@ -75,8 +80,6 @@ jobs:
           label: coverage
           message: ${{ env.COVERAGE }}
           color: ${{ env.COVERAGE_COLOR }}
-          # message: pkg-pct
-          # color: yellow
 
       - name: Show testthat output
         if: always()
