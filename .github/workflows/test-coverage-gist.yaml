@@ -55,7 +55,7 @@ jobs:
         #   }
         # shell: Rscript {0}
         run: |
-          R -e 'cov <- covr::package_coverage(
+          Rscript -e 'cov <- covr::package_coverage(
                   type = "tests",  # unit tests only
                   quiet = FALSE,
                   clean = FALSE,
@@ -77,6 +77,12 @@ jobs:
           echo "COVERAGE_COLOR=$(echo $R_COVERAGE_COLOR)"
           echo "COVERAGE=$(echo $R_COVERAGE)" >> $GITHUB_ENV
           echo "COVERAGE_COLOR=$(echo $R_COVERAGE_COLOR)" >> $GITHUB_ENV
+          echo ${R_COVERAGE}
+          echo ${R_COVERAGE_COLOR}
+          echo "COVERAGE=$(echo ${R_COVERAGE})"
+          echo "COVERAGE_COLOR=$(echo ${R_COVERAGE_COLOR})"
+          echo "COVERAGE=$(echo ${R_COVERAGE})" >> $GITHUB_ENV
+          echo "COVERAGE_COLOR=$(echo ${R_COVERAGE_COLOR})" >> $GITHUB_ENV
 
       - name: Create coverage badge
         uses: schneegans/dynamic-badges-action@v1.1.0
