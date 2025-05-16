@@ -71,10 +71,14 @@ jobs:
                 } else {
                   Sys.setenv(R_COVERAGE_COLOR = "red")  
                 }'
-          echo "COVERAGE=$(echo ${R_COVERAGE})" >> $GITHUB_ENV
-          echo "COVERAGE_COLOR=$(echo ${R_COVERAGE_COLOR})" >> $GITHUB_ENV
+          echo $R_COVERAGE
+          echo $R_COVERAGE_COLOR
+          echo "COVERAGE=$(echo $R_COVERAGE)"
+          echo "COVERAGE_COLOR=$(echo $R_COVERAGE_COLOR)"
+          echo "COVERAGE=$(echo $R_COVERAGE)" >> $GITHUB_ENV
+          echo "COVERAGE_COLOR=$(echo $R_COVERAGE_COLOR)" >> $GITHUB_ENV
 
-      - name: Create Coverage Badge
+      - name: Create coverage badge
         uses: schneegans/dynamic-badges-action@v1.1.0
         with:
           auth: ${{ secrets.GIST_SECRET }}
