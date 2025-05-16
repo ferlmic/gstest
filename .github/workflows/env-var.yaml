@@ -18,6 +18,11 @@ jobs:
         with:
           use-public-rspm: true
 
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::covr, any::xml2
+          needs: coverage
+
       - name: Rscript
         run: |
           Rscript -e 'pkg_cov <- 95.123456;
