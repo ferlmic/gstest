@@ -1,0 +1,53 @@
+name: Environment Variables (tests)
+
+on:
+  workflow_dispatch:
+
+permissions: read-all
+
+jobs:
+  env-var:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - name: Rscript
+        run: |
+          Rscript -e 'pkg_cov <- 95.123456;
+                      Sys.setenv(R_COVERAGE = pkg_cov);
+                      cat("R_COVERAGE=", Sys.getenv("R_COVERAGE"), "\n");
+                      system(paste0("R_COVERAGE2=", pkg_cov));
+                      cat("R_COVERAGE2=", Sys.getenv("R_COVERAGE2"), "\n");
+                      system(paste0("export R_COVERAGE3=", pkg_cov));
+                      cat("R_COVERAGE3=", Sys.getenv("R_COVERAGE3"), "\n");
+                      '
+          echo $R_COVERAGE
+          echo ${R_COVERAGE}
+          echo $R_COVERAGE2
+          echo ${R_COVERAGE2}
+          echo $R_COVERAGE3
+          echo ${R_COVERAGE3}
+
+      - name: R
+        run: |
+          R -e 'pkg_cov <- 95.123456;
+                      Sys.setenv(R_COVERAGE = pkg_cov);
+                      cat("R_COVERAGE=", Sys.getenv("R_COVERAGE"), "\n");
+                      system(paste0("R_COVERAGE2=", pkg_cov));
+                      cat("R_COVERAGE2=", Sys.getenv("R_COVERAGE2"), "\n");
+                      system(paste0("export R_COVERAGE3=", pkg_cov));
+                      cat("R_COVERAGE3=", Sys.getenv("R_COVERAGE3"), "\n");
+                      '
+          echo $R_COVERAGE
+          echo ${R_COVERAGE}
+          echo $R_COVERAGE2
+          echo ${R_COVERAGE2}
+          echo $R_COVERAGE3
+          echo ${R_COVERAGE3}
