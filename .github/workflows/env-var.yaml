@@ -23,36 +23,23 @@ jobs:
       #     extra-packages: any::covr, any::xml2
       #     needs: coverage
 
-      - name: Rscript
+      - name: Test coverage
         run: |
-          Rscript -e 'pkg_cov <- 95.123456;
-                      Sys.setenv(R_COVERAGE = pkg_cov);
-                      cat("(inside R) R_COVERAGE=", Sys.getenv("R_COVERAGE"), "\n");
-                      system(paste0("R_COVERAGE2=", pkg_cov));
-                      cat("(inside R) R_COVERAGE2=", Sys.getenv("R_COVERAGE2"), "\n");
-                      system(paste0("export R_COVERAGE3=", pkg_cov));
-                      cat("(inside R) R_COVERAGE3=", Sys.getenv("R_COVERAGE3"), "\n");
-                      '
-          echo "R_coverage=$(echo $R_COVERAGE)"
-          echo "R_coverage=$(echo ${R_COVERAGE})"
-          echo "R_coverage=$(echo $R_COVERAGE2)"
-          echo "R_coverage=$(echo ${R_COVERAGE2})"
-          echo "R_coverage=$(echo $R_COVERAGE3)"
-          echo "R_coverage=$(echo ${R_COVERAGE3})"
+          pkg_cov <- 95.123456
+          cov_col <- "red"
+          writeLines(
+            paste0(
+              'echo "COVERAGE=', pkg_cov'" >> $GITHUB_ENV\n', 
+              'echo "COVERAGE_COLOR=', cov_col'" >> $GITHUB_ENV\n'
+            ),
+            "set_env_var.sh"
+          )
+        shell: Rscript {0}
 
-      - name: R
+      - name: Set env vars
+        run: set_env_var.sh
+
+      - name: Display env vars
         run: |
-          R -e 'pkg_cov <- 95.123456;
-                      Sys.setenv(R_COVERAGE = pkg_cov);
-                      cat("(inside R) R_COVERAGE=", Sys.getenv("R_COVERAGE"), "\n");
-                      system(paste0("R_COVERAGE2=", pkg_cov));
-                      cat("(inside R) R_COVERAGE2=", Sys.getenv("R_COVERAGE2"), "\n");
-                      system(paste0("export R_COVERAGE3=", pkg_cov));
-                      cat("(inside R) R_COVERAGE3=", Sys.getenv("R_COVERAGE3"), "\n");
-                      '
-          echo "R_coverage=$(echo $R_COVERAGE)"
-          echo "R_coverage=$(echo ${R_COVERAGE})"
-          echo "R_coverage=$(echo $R_COVERAGE2)"
-          echo "R_coverage=$(echo ${R_COVERAGE2})"
-          echo "R_coverage=$(echo $R_COVERAGE3)"
-          echo "R_coverage=$(echo ${R_COVERAGE3})"
+          echo "COVERAGE=${{ env.COVERAGE }}"
+          echo "COVERAGE_COLOR=${{ env.COVERAGE_COLOR }}"
