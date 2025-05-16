@@ -11,6 +11,8 @@ stable](man/figures/lifecycle-stable.svg)](https://lifecycle.r-lib.org/articles/
 [![R-CMD-check](https://github.com/ferlmic/gstest/actions/workflows/R-CMD-check.yaml/badge.svg?branch=main)](https://github.com/ferlmic/gstest/actions/workflows/R-CMD-check.yaml?query=branch%3Amain)
 [![Codecov test
 coverage](https://codecov.io/gh/ferlmic/gstest/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ferlmic/gstest?branch=main)
+[![Gist test
+coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/ferlmic/d1c44251dc166a6148015f7414a0ed1a/raw/gstest_coverage.json)](https://github.com/ferlmic/gstest/actions/workflows/test-coverage.yaml?query=branch%3Amain)
 
 <!-- badges: end -->
 

@@ -1,22 +1,27 @@
-# Test coverage workflow using Gist for the coverage. 
+# Test coverage workflow using GitHub Gist for the coverage badge. 
 # Source: https://dev.to/thejaredwilcurt/coverage-badge-with-github-actions-finally-59fa
 # 
-# Compared with other (widespread) approaches:
+# Compared with other (widespread) approaches on GitHub:
 # - Disadvantage: full coverage report not available (not hosted anywhere)
 # - Advantages (tied to the disadvantage mentioned above): 
-#   - Does not use 3rd party service website (e.g., Codecov.io) to host the coverage report
-#   - Does not use GitHub Pages to host the full report 
-#     (Pages is already used for the package website)
+#   - Does not use 3rd party services (e.g., Codecov.io) to host the coverage report
+#   - Does not use GitHub Pages to host the full report (important since Pages is 
+#     already used for the package website)
 #
 # Source for the badge colors (in step "Test Coverage"): 
 # https://docs.gitlab.com/user/project/badges/#test-coverage-limits-and-badge-colors
+#
+# NOTE: this is similar to what we currently do in GitLab, i.e.,:
+#   - coverage badge in the README file (with the same color scale)
+#   - coverage percentages for the package (overall coverage) and individual R scripts 
+#     available in the pipeline job (text) log.
 
 name: Test Coverage - Gist
 
 on:
-  # push:
-  #   branches: [main, master]
-  # Allow a manual run of the workflow
+  push:
+    branches: [main]
+  Allow a manual run of the workflow
   workflow_dispatch:
 
 permissions: read-all

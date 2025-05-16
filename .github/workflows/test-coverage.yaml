@@ -4,8 +4,8 @@
 name: Test Coverage
 
 on:
-  # push:
-  #   branches: [main, master]
+  push:
+    branches: [main]
   # Allow a manual run of the workflow
   workflow_dispatch:
 
