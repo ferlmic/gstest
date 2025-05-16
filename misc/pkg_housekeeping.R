@@ -6,7 +6,10 @@ devtools::document("fr")  # loads the French package (like `devtools::load_all("
 lintr::lint_package()
 devtools::test(".")
 devtools::test_coverage(".")  # restart R before running (same as `covr::report(covr::package_coverage("."))`)
-covr::package_coverage(".")  # restart R before running
+
+cov <- covr::package_coverage(".")  # restart R before running
+covr::percent_coverage(cov)
+
 devtools::check(".")
 devtools::build_rmd("misc/README.Rmd")
 devtools::build_rmd("misc/Release_Checklist.Rmd")
