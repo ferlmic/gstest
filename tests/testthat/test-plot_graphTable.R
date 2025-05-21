@@ -246,16 +246,16 @@ test_that("individual plot functions", {
 })
 
 
-# GitHub workflow test with a "failed test"
-test_that("`NA` is returned (no PDF created) while expecting non-`NA`", {
-  expect_false(is.na(suppressMessages(
-    plot_graphTable(graphTable = benchmarking(ind1, bmk1,
-                                              rho = 1, lambda = 0, biasOption = 1,
-                                              quiet = TRUE)$graphTable,
-                    pdf_file = NULL,
-                    ori_plot_flag = FALSE,
-                    adj_plot_flag = FALSE,
-                    GR_plot_flag = FALSE,
-                    GR_table_flag = FALSE)
-  )$pdf_name))
-})
+# Test for pipeline/workflow status test with a "failed test"
+# test_that("failed test: `NA` is returned (no PDF created) while expecting non-`NA`", {
+#   expect_false(is.na(suppressMessages(
+#     plot_graphTable(graphTable = benchmarking(ind1, bmk1,
+#                                               rho = 1, lambda = 0, biasOption = 1,
+#                                               quiet = TRUE)$graphTable,
+#                     pdf_file = NULL,
+#                     ori_plot_flag = FALSE,
+#                     adj_plot_flag = FALSE,
+#                     GR_plot_flag = FALSE,
+#                     GR_table_flag = FALSE)
+#   )$pdf_name))
+# })
