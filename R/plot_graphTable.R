@@ -449,7 +449,7 @@ plot_graphTable <- function(graphTable,
           bookmark_msg_flag <- TRUE
         }
       } else {
-        bookmark_msg_flag <- FALSE
+        bookmark_msg_flag = FALSE
       }
 
       # Create the final (remote) PDF file
