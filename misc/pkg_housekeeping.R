@@ -9,6 +9,8 @@ devtools::test_coverage(".")  # restart R before running (same as `covr::report(
 
 cov <- covr::package_coverage(".")  # restart R before running
 covr::percent_coverage(cov)
+cov_report_file <- covr::report(cov)  # display the HTML report
+covr::report()  # run `covr::package_coverage()` first and then display the HTML report
 
 devtools::check(".")
 devtools::build_rmd("misc/README.Rmd")
